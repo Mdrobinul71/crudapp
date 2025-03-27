@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+<h2>My Tasks</h2>
+<a href="{% url 'create_task' %}" class="btn btn-primary">Add Task</a>
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.due_date }}</td>
+        <td>{% if task.completed %}✔ Done{% else %}❌ Pending{% endif %}</td>
+        <td>
+            <a href="{% url 'edit_task' task.id %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
