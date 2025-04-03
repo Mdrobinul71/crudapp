@@ -31,7 +31,7 @@
 						<a class="nav-link" href="{% url 'task_list' %}">TaskList</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">Contact</a>
+						<a class="nav-link" href="{% url 'contact_page' %}">Contact</a>
 					</li>
 
 					{% if request.user.is_authenticated %}

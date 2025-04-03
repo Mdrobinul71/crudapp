@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from account.models import Contact
 
 
 # Create your views here.
@@ -49,7 +50,7 @@ def user_login(request):
         if user:
             login(request,user)
             messages.success(request,"login success")
-            return redirect('/')
+            return redirect('task_list')
         else:
             messages.error(request,"User not login")
             return redirect('sign_up')
@@ -60,3 +61,22 @@ def user_logout(request):
     logout(request)
     messages.success(request,"logout success")
     return redirect('sign_up')
+
+def contact(request):
+    if request.method=="POST":
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        message=request.POST.get('messages')
+
+        # Validate input fields
+        if not name or not email or not message:
+            messages.error(request, "All fields are required.")
+            return redirect('contact_page')
+
+        try:
+            Contact.objects.create(name=name,email=email,messages=message)
+            messages.success(request,"Your message has been sent successfully.")
+        except Exception as e:
+            messages.error(request,"Something went wrong. Please try again.")
+    
+    return render(request,'account/contact.html')
